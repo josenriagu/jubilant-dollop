@@ -6,3 +6,4 @@ export * from "./PanelLeftOpen";
 export * from "./PanelRightOpen";
 export * from "./Sun";
 export * from "./WalletConnect";
+export * from "./Zap";

@@ -41,27 +41,27 @@ export default function Screen() {
             <Button
               variant="outline"
               size="icon"
-              className="flex justify-center items-center h-10 w-10 rounded-full"
+              className="flex justify-center items-center h-12 w-12 rounded-full"
               onPress={handleToggleSidebar}
             >
               {isSidebarOpen ? (
                 <PanelRightOpen
                   size={16}
                   strokeWidth={2.5}
-                  className="w-10 h-10 text-secondary"
+                  className="h-12 w-12 text-secondary"
                 />
               ) : (
                 <PanelLeftOpen
                   size={16}
                   strokeWidth={2.5}
-                  className="w-10 h-10 text-secondary"
+                  className="h-12 w-12 text-secondary"
                 />
               )}
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="flex justify-center items-center h-10 w-10 rounded-full"
+              className="flex justify-center items-center h-12 w-12 rounded-full"
             >
               <ChevronLeft
                 size={16}

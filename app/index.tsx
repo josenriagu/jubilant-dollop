@@ -1,93 +1,120 @@
-import * as React from 'react';
-import { View } from 'react-native';
-import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig } from 'react-native-reanimated';
-import { Info } from '~/lib/icons/Info';
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
-import { Button } from '~/components/ui/button';
+import * as React from "react";
+import { View } from "react-native";
+import { useColorScheme } from "~/lib/useColorScheme";
+import {
+  ChevronLeft,
+  PanelLeftOpen,
+  PanelRightOpen,
+  WalletConnect,
+} from "~/lib/icons";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '~/components/ui/card';
-import { Progress } from '~/components/ui/progress';
-import { Text } from '~/components/ui/text';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
-
-const GITHUB_AVATAR_URI =
-  'https://i.pinimg.com/originals/ef/a2/8d/efa28d18a04e7fa40ed49eeb0ab660db.jpg';
+} from "~/components/ui/card";
+import { Text } from "~/components/ui/text";
+import { Image } from "~/components/ui/image";
 
 export default function Screen() {
-  const [progress, setProgress] = React.useState(78);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(false);
 
-  function updateProgressValue() {
-    setProgress(Math.floor(Math.random() * 100));
-  }
+  const { isDarkColorScheme } = useColorScheme();
+
   return (
-    <View className='flex-1 justify-center items-center gap-5 p-6 bg-secondary/30'>
-      <Card className='w-full max-w-sm p-6 rounded-2xl'>
-        <CardHeader className='items-center'>
-          <Avatar alt="Rick Sanchez's Avatar" className='w-24 h-24'>
-            <AvatarImage source={{ uri: GITHUB_AVATAR_URI }} />
-            <AvatarFallback>
-              <Text>RS</Text>
-            </AvatarFallback>
-          </Avatar>
-          <View className='p-3' />
-          <CardTitle className='pb-2 text-center'>Rick Sanchez</CardTitle>
-          <View className='flex-row'>
-            <CardDescription className='text-base font-semibold'>Scientist</CardDescription>
-            <Tooltip delayDuration={150}>
-              <TooltipTrigger className='px-2 pb-0.5 active:opacity-50'>
-                <Info size={14} strokeWidth={2.5} className='w-4 h-4 text-foreground/70' />
-              </TooltipTrigger>
-              <TooltipContent className='py-2 px-4 shadow'>
-                <Text className='native:text-lg'>Freelance</Text>
-              </TooltipContent>
-            </Tooltip>
-          </View>
-        </CardHeader>
-        <CardContent>
-          <View className='flex-row justify-around gap-3'>
-            <View className='items-center'>
-              <Text className='text-sm text-muted-foreground'>Dimension</Text>
-              <Text className='text-xl font-semibold'>C-137</Text>
-            </View>
-            <View className='items-center'>
-              <Text className='text-sm text-muted-foreground'>Age</Text>
-              <Text className='text-xl font-semibold'>70</Text>
-            </View>
-            <View className='items-center'>
-              <Text className='text-sm text-muted-foreground'>Species</Text>
-              <Text className='text-xl font-semibold'>Human</Text>
-            </View>
-          </View>
-        </CardContent>
-        <CardFooter className='flex-col gap-3 pb-0'>
-          <View className='flex-row items-center overflow-hidden'>
-            <Text className='text-sm text-muted-foreground'>Productivity:</Text>
-            <LayoutAnimationConfig skipEntering>
-              <Animated.View
-                key={progress}
-                entering={FadeInUp}
-                exiting={FadeOutDown}
-                className='w-11 items-center'
-              >
-                <Text className='text-sm font-bold text-sky-600'>{progress}%</Text>
-              </Animated.View>
-            </LayoutAnimationConfig>
-          </View>
-          <Progress value={progress} className='h-2' indicatorClassName='bg-sky-600' />
-          <View />
+    <View className="flex-1 items-center gap-5 p-2">
+      <Card className="flex flex-row justify-between items-center w-full max-w-lg px-2 rounded-2xl gap-2">
+        <Card className="flex flex-row border-0 boxShadow-none gap-2">
           <Button
-            variant='outline'
-            className='shadow shadow-foreground/5'
-            onPress={updateProgressValue}
+            variant="outline"
+            size="icon"
+            className="flex justify-center items-center h-10 w-10 rounded-full"
           >
-            <Text>Update</Text>
+            {isSidebarOpen ? (
+              <PanelLeftOpen
+                size={16}
+                strokeWidth={2.5}
+                className="w-10 h-10 text-secondary"
+              />
+            ) : (
+              <PanelRightOpen
+                size={16}
+                strokeWidth={2.5}
+                className="w-10 h-10 text-secondary"
+              />
+            )}
           </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="flex justify-center items-center h-10 w-10 rounded-full"
+          >
+            <ChevronLeft
+              size={16}
+              strokeWidth={2.5}
+              className="w-10 h-10 text-secondary"
+            />
+          </Button>
+        </Card>
+        <Card className="flex h-fit w-fit gap p-0 border-0 boxShadow-0">
+          {isDarkColorScheme ? (
+            <Image
+              src={require("../assets/images/small.png")}
+              alt="akasha logo"
+              style={{ width: 15, height: 15, margin: "auto" }}
+            />
+          ) : (
+            <Image
+              src={require("../assets/images/small_dark.png")}
+              alt="akasha logo"
+              style={{ width: 15, height: 15, margin: "auto" }}
+            />
+          )}
+          <Card className="px-2 py-0 mt-[1.75] border-0 boxShadow-0 bg-destructive rounded-full">
+            <Text className="text-sm text-white">Alpha</Text>
+          </Card>
+        </Card>
+        <Card className="flex h-16 w-24 border-0 boxShadow-0 bg-transparent" />
+      </Card>
+      <Card className="w-full max-w-lg p-2 rounded-2xl">
+        <CardHeader className="items-center">
+          <CardTitle className="pb-2 text-center">
+            ✨ Welcome to AKASHA World ✨
+          </CardTitle>
+        </CardHeader>
+
+        <Image
+          src={require("../assets/images/auth.webp")}
+          alt="connect provider"
+          style={{ width: 200, height: 200, margin: "auto" }}
+        />
+
+        <CardContent className="gap-2 mt-2">
+          <Text className="text-sm text-muted-foreground">
+            Connect your wallet
+          </Text>
+          <Card className="flex items-start w-full mt-2 p-2">
+            <Button
+              variant="ghost"
+              className="flex flex-row  gap-2 p-0"
+              onPress={() => {
+                console.log("Connect Wallet");
+              }}
+            >
+              <WalletConnect />
+              <Card className="border-0 boxShadow-none bg-transparent">
+                <Text>Web3Modal</Text>
+                <Text className="text-sm text-muted-foreground">
+                  Connect your wallet
+                </Text>
+              </Card>
+            </Button>
+          </Card>
+        </CardContent>
+        <CardFooter className="flex-col gap-3 pb-0">
+          <Text className="text-sm text-secondary">Powered by Web3Modal</Text>
         </CardFooter>
       </Card>
     </View>

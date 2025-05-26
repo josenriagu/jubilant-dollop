@@ -12,7 +12,7 @@ function Card({
   return (
     <View
       className={cn(
-        'rounded-lg border border-border bg-card shadow-sm shadow-foreground/10',
+        'rounded-lg border border-border bg-card boxShadow-sm boxShadow-foreground/10',
         className
       )}
       {...props}
@@ -40,7 +40,7 @@ function CardTitle({
       role='heading'
       aria-level={3}
       className={cn(
-        'text-2xl text-card-foreground font-semibold leading-none tracking-tight',
+        'text-xl text-card-foreground font-semibold leading-none tracking-tight',
         className
       )}
       {...props}

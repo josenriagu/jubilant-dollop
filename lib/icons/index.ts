@@ -1,5 +1,5 @@
 export * from "./Akasha";
-export * from "./AudioWaveForm";
+export * from "./AudioWaveform";
 export * from "./BellDot";
 export * from "./Blocks";
 export * from "./ChevronDown";

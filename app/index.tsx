@@ -11,6 +11,7 @@ import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -23,23 +24,28 @@ export default function Screen() {
 
   const { isDarkColorScheme } = useColorScheme();
 
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   return (
     <View className="flex-1 items-center gap-5 p-2">
       <Card className="flex flex-row justify-between items-center w-full max-w-lg px-2 rounded-2xl gap-2">
-        <Card className="flex flex-row border-0 boxShadow-none gap-2">
+        <Card className="flex flex-row gap-2 border-0 boxShadow-none bg-transparent">
           <Button
             variant="outline"
             size="icon"
             className="flex justify-center items-center h-10 w-10 rounded-full"
+            onPress={handleToggleSidebar}
           >
             {isSidebarOpen ? (
-              <PanelLeftOpen
+              <PanelRightOpen
                 size={16}
                 strokeWidth={2.5}
                 className="w-10 h-10 text-secondary"
               />
             ) : (
-              <PanelRightOpen
+              <PanelLeftOpen
                 size={16}
                 strokeWidth={2.5}
                 className="w-10 h-10 text-secondary"
@@ -58,7 +64,7 @@ export default function Screen() {
             />
           </Button>
         </Card>
-        <Card className="flex h-fit w-fit gap p-0 border-0 boxShadow-0">
+        <Card className="flex h-fit w-fit gap p-0 border-0 boxShadow-none bg-transparent">
           {isDarkColorScheme ? (
             <Image
               src={require("../assets/images/small.png")}
@@ -88,33 +94,40 @@ export default function Screen() {
         <Image
           src={require("../assets/images/auth.webp")}
           alt="connect provider"
-          style={{ width: 200, height: 200, margin: "auto" }}
+          style={{ width: 176, height: 176, margin: "auto" }}
         />
 
         <CardContent className="gap-2 mt-2">
           <Text className="text-sm text-muted-foreground">
             Connect your wallet
           </Text>
-          <Card className="flex items-start w-full mt-2 p-2">
+          <Card className="flex items-start w-full mt-[1.5] p-2">
             <Button
               variant="ghost"
-              className="flex flex-row  gap-2 p-0"
+              className="flex flex-row justify-start w-full gap-2 p-0"
               onPress={() => {
                 console.log("Connect Wallet");
               }}
             >
               <WalletConnect />
-              <Card className="border-0 boxShadow-none bg-transparent">
-                <Text>Web3Modal</Text>
-                <Text className="text-sm text-muted-foreground">
-                  Connect your wallet
-                </Text>
+              <Card className="border-0 boxShadow-none bg-transparent gap-[2.5]">
+                <Text className="font-bold">Web3Modal</Text>
+                <Card className="border-0 boxShadow-none bg-transparent gap-0">
+                  <CardDescription className="font-semibold text-muted-foreground">
+                    Connect your wallet using MetaMask,
+                  </CardDescription>
+                  <CardDescription className="font-semibold text-muted-foreground">
+                    WalletConnect, Coinbase etc ...
+                  </CardDescription>
+                </Card>
               </Card>
             </Button>
           </Card>
         </CardContent>
         <CardFooter className="flex-col gap-3 pb-0">
-          <Text className="text-sm text-secondary">Powered by Web3Modal</Text>
+          <Text className="font-semibold text-sm text-secondary">
+            Powered by Web3Modal
+          </Text>
         </CardFooter>
       </Card>
     </View>

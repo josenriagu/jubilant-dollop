@@ -30,7 +30,7 @@ export default function Screen() {
   };
 
   const handleConnect = () => {
-    console.log("Connect Wallet");
+    /** make a call to reown api */
   };
 
   return (
@@ -107,14 +107,12 @@ export default function Screen() {
             <Text className="text-sm text-muted-foreground">
               Connect your wallet
             </Text>
-            <Card className="flex items-start w-full mt-[1.5] p-2">
-              <Button
-                variant="ghost"
-                className="flex flex-row justify-start w-full gap-2 p-0"
-                onPress={() => {
-                  console.log("Connect Wallet");
-                }}
-              >
+            <Button
+              variant="outline"
+              className="flex items-start w-full mt-[1.5] p-2"
+              onPress={handleConnect}
+            >
+              <Card className="flex flex-row justify-start w-full gap-2 p-0 border-0 boxShadow-none bg-transparent">
                 <WalletConnect />
                 <Card className="border-0 boxShadow-none bg-transparent gap-[2.5]">
                   <Text className="font-bold">Web3Modal</Text>
@@ -127,8 +125,8 @@ export default function Screen() {
                     </CardDescription>
                   </Card>
                 </Card>
-              </Button>
-            </Card>
+              </Card>
+            </Button>
           </CardContent>
           <CardFooter className="flex-col gap-3 pb-0">
             <Text className="font-semibold text-sm text-secondary">

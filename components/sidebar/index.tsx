@@ -143,7 +143,7 @@ export default function Sidebar(props: {
               </AvatarFallback>
             </Avatar>
             <Card className={commonCardStyle + "gap-1"}>
-              <Text className="font-bold">Guest</Text>
+              <Text className="text-lg font-bold">Guest</Text>
               <Text className={commonTextStyle}>Connect to see</Text>
               <Text className={commonTextStyle}>member-only features.</Text>
             </Card>
@@ -192,7 +192,7 @@ export default function Sidebar(props: {
               </AccordionTrigger>
               <AccordionContent className="ml-20 gap-4">
                 {item.content.map((contentItem, index) => (
-                  <Text key={index} className="font-semibold">
+                  <Text key={index}>
                     {contentItem.label}
                   </Text>
                 ))}

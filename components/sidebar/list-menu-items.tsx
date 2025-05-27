@@ -18,7 +18,7 @@ export const ListMenuItem = (props: {
       >
         {icon}
       </Button>
-      <Text className="font-semibold">{label}</Text>
+      <Text className="text-lg font-semibold">{label}</Text>
     </Card>
   );
 };

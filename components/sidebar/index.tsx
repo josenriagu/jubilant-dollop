@@ -147,7 +147,7 @@ export default function Sidebar(props: {
     <View className="absolute top-0 left-0 h-full w-full">
       <Card className="flex items-start h-full w-full max-w-lg p-2 rounded-none gap-2 border-0">
         <Card className="flex flex-row justify-between items-center w-full p-4 rounded-none boxShadow-none border-0 border-b">
-          <Card className={commonCardStyle + "flex flex-row gap-2"}>
+          <Card className={`${commonCardStyle} flex flex-row gap-2`}>
             <Avatar alt="Guest's Avatar" className="w-12 h-12">
               <AvatarImage
                 source={{
@@ -158,13 +158,13 @@ export default function Sidebar(props: {
                 <Text>GU</Text>
               </AvatarFallback>
             </Avatar>
-            <Card className={commonCardStyle + "gap-1"}>
+            <Card className={`${commonCardStyle} gap-1`}>
               <Text className="text-lg font-bold">Guest</Text>
               <Text className={commonTextStyle}>Connect to see</Text>
               <Text className={commonTextStyle}>member-only features.</Text>
             </Card>
           </Card>
-          <Card className={commonCardStyle + "flex flex-row gap-2"}>
+          <Card className={`${commonCardStyle} flex flex-row gap-2`}>
             <Button
               variant="outline"
               size="icon"
@@ -204,14 +204,18 @@ export default function Sidebar(props: {
               className="border-0"
             >
               <AccordionTrigger>
-                <ListMenuItem icon={item.icon} label={item.label} />
+                <ListMenuItem
+                  icon={item.icon}
+                  label={item.label}
+                  margin="ml-4"
+                />
               </AccordionTrigger>
               <AccordionContent className="ml-10">
                 {item.content?.map((contentItem, index) => (
                   <Button
                     key={index}
                     variant="outline"
-                    className="flex w-full items-start pl-10 rounded-none border-0 boxShadow-0 border-l-4"
+                    className="flex w-full items-start pl-10 py-4 rounded-none border-0 boxShadow-0 border-l-4"
                     onPress={() => router.navigate(item.route)}
                   >
                     <Text key={index}>{contentItem.label}</Text>
@@ -221,9 +225,16 @@ export default function Sidebar(props: {
             </AccordionItem>
           ))}
         </Accordion>
-        <Card className={commonCardStyle + "w-full gap-8 mt-2"}>
+        <Card className={`${commonCardStyle} w-full gap-8 mt-2 pl-0`}>
           {otherApps.map((item, index) => (
-            <ListMenuItem key={index} icon={item.icon} label={item.label} />
+            <Button
+              key={index}
+              variant="ghost"
+              className="flex w-full items-start"
+              onPress={() => router.navigate(item.route)}
+            >
+              <ListMenuItem key={index} icon={item.icon} label={item.label} />
+            </Button>
           ))}
         </Card>
       </Card>

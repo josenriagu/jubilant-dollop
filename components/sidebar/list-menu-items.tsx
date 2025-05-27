@@ -6,10 +6,13 @@ import { Text } from "~/components/ui/text";
 export const ListMenuItem = (props: {
   icon: React.ReactElement;
   label: string;
+  margin?: string;
 }) => {
-  const { icon, label } = props;
+  const { icon, label, margin } = props;
   return (
-    <Card className="flex flex-row items-center ml-4 gap-4 rounded-none border-0 boxShadow-none bg-transparent">
+    <Card
+      className={`flex flex-row items-center gap-4 rounded-none border-0 boxShadow-none bg-transparent" ${margin}`}
+    >
       <Button
         variant="outline"
         size="icon"

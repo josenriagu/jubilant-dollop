@@ -135,7 +135,7 @@ export default function Screen() {
           </CardFooter>
         </Card>
       </View>
-      {!isSidebarOpen && (
+      {isSidebarOpen && (
         <Sidebar toggleSidebar={handleToggleSidebar} connect={handleConnect} />
       )}
     </>

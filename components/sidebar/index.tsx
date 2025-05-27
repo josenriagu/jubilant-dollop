@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
+import { Href, useRouter } from "expo-router";
 import {
   Accordion,
   AccordionContent,
@@ -22,18 +23,29 @@ import {
 } from "~/lib/icons";
 import { ListMenuItem } from "./list-menu-items";
 
+type SidebarItem = {
+  label: string;
+  value?: string;
+  route: Href;
+  icon: React.ReactElement;
+  content?: { label: string }[];
+};
+
 export default function Sidebar(props: {
   toggleSidebar: () => void;
   connect: () => void;
 }) {
   const { toggleSidebar, connect } = props;
+  const router = useRouter();
 
   const commonCardStyle = "border-0 boxShadow-none bg-transparent";
   const commonTextStyle = "text-sm font-semibold text-muted-foreground";
 
-  const appsWithSubMenu = [
+  const appsWithSubMenu: SidebarItem[] = [
     {
-      value: "Akasha",
+      label: "Antenna",
+      value: "antenna",
+      route: "/antenna",
       icon: (
         <SatelliteDish
           size={16}
@@ -41,7 +53,6 @@ export default function Sidebar(props: {
           className="w-10 h-10 text-secondary"
         />
       ),
-      label: "Antenna",
       content: [
         {
           label: "Global Antenna",
@@ -52,7 +63,9 @@ export default function Sidebar(props: {
       ],
     },
     {
+      label: "Extensions",
       value: "extensions",
+      route: "/extensions",
       icon: (
         <Blocks
           size={16}
@@ -60,7 +73,6 @@ export default function Sidebar(props: {
           className="w-10 h-10 text-secondary"
         />
       ),
-      label: "Extensions",
       content: [
         {
           label: "Explore",
@@ -71,7 +83,9 @@ export default function Sidebar(props: {
       ],
     },
     {
+      label: "Vibes",
       value: "vibes",
+      route: "/vibes",
       icon: (
         <AudioWaveform
           size={16}
@@ -79,7 +93,6 @@ export default function Sidebar(props: {
           className="w-10 h-10 text-secondary"
         />
       ),
-      label: "Vibes",
       content: [
         {
           label: "Overview",
@@ -94,8 +107,10 @@ export default function Sidebar(props: {
     },
   ];
 
-  const otherApps = [
+  const otherApps: SidebarItem[] = [
     {
+      label: "Search",
+      route: "/search",
       icon: (
         <Search
           size={16}
@@ -103,9 +118,10 @@ export default function Sidebar(props: {
           className="w-10 h-10 text-secondary"
         />
       ),
-      label: "Search",
     },
     {
+      label: "Notifications",
+      route: "/notifications",
       icon: (
         <BellDot
           size={16}
@@ -113,9 +129,10 @@ export default function Sidebar(props: {
           className="w-10 h-10 text-secondary"
         />
       ),
-      label: "Notifications",
     },
     {
+      label: "Settings",
+      route: "/settings",
       icon: (
         <Settings
           size={16}
@@ -123,7 +140,6 @@ export default function Sidebar(props: {
           className="w-10 h-10 text-secondary"
         />
       ),
-      label: "Settings",
     },
   ];
 
@@ -184,17 +200,22 @@ export default function Sidebar(props: {
           {appsWithSubMenu.map((item) => (
             <AccordionItem
               key={item.value}
-              value={item.value}
+              value={item.value ?? ""}
               className="border-0"
             >
               <AccordionTrigger>
                 <ListMenuItem icon={item.icon} label={item.label} />
               </AccordionTrigger>
-              <AccordionContent className="ml-20 gap-4">
-                {item.content.map((contentItem, index) => (
-                  <Text key={index}>
-                    {contentItem.label}
-                  </Text>
+              <AccordionContent className="ml-10">
+                {item.content?.map((contentItem, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    className="flex w-full items-start pl-10 rounded-none border-0 boxShadow-0 border-l-4"
+                    onPress={() => router.navigate(item.route)}
+                  >
+                    <Text key={index}>{contentItem.label}</Text>
+                  </Button>
                 ))}
               </AccordionContent>
             </AccordionItem>

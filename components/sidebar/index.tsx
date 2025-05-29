@@ -31,11 +31,8 @@ type SidebarItem = {
   content?: { label: string }[];
 };
 
-export default function Sidebar(props: {
-  toggleSidebar: () => void;
-  connect: () => void;
-}) {
-  const { toggleSidebar, connect } = props;
+export default function Sidebar(props: { toggleSidebar: () => void }) {
+  const { toggleSidebar } = props;
   const router = useRouter();
 
   const commonCardStyle = "border-0 boxShadow-none bg-transparent";
@@ -169,7 +166,7 @@ export default function Sidebar(props: {
               variant="outline"
               size="icon"
               className="flex justify-center items-center h-12 w-12 rounded-full"
-              onPress={connect}
+              onPress={() => router.navigate("/")}
             >
               <Zap
                 size={16}

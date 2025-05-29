@@ -166,7 +166,10 @@ export default function Sidebar(props: { toggleSidebar: () => void }) {
               variant="outline"
               size="icon"
               className="flex justify-center items-center h-12 w-12 rounded-full"
-              onPress={() => router.navigate("/")}
+              onPress={() => {
+                router.navigate("/");
+                toggleSidebar();
+              }}
             >
               <Zap
                 size={16}

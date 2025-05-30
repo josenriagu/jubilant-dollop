@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Href, useRouter } from "expo-router";
 import {
   Accordion,
@@ -191,52 +191,54 @@ export default function Sidebar(props: { toggleSidebar: () => void }) {
             </Button>
           </Card>
         </Card>
-        <Accordion
-          type="multiple"
-          collapsible
-          defaultValue={["item-1"]}
-          className="w-full mr-8 max-w-sm native:max-w-md"
-        >
-          {appsWithSubMenu.map((item) => (
-            <AccordionItem
-              key={item.value}
-              value={item.value ?? ""}
-              className="border-0"
-            >
-              <AccordionTrigger>
-                <ListMenuItem
-                  icon={item.icon}
-                  label={item.label}
-                  margin="ml-4"
-                />
-              </AccordionTrigger>
-              <AccordionContent className="ml-10">
-                {item.content?.map((contentItem, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    className="flex w-full items-start pl-10 py-4 rounded-none border-0 boxShadow-0 border-l-4"
-                    onPress={() => router.navigate(item.route)}
-                  >
-                    <Text key={index}>{contentItem.label}</Text>
-                  </Button>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-        <Card className={`${commonCardStyle} w-full gap-8 mt-2 pl-0`}>
-          {otherApps.map((item, index) => (
-            <Button
-              key={index}
-              variant="ghost"
-              className="flex w-full items-start"
-              onPress={() => router.navigate(item.route)}
-            >
-              <ListMenuItem key={index} icon={item.icon} label={item.label} />
-            </Button>
-          ))}
-        </Card>
+        <ScrollView className="w-full">
+          <Accordion
+            type="multiple"
+            collapsible
+            defaultValue={["item-1"]}
+            className="w-full mr-8 max-w-sm native:max-w-md"
+          >
+            {appsWithSubMenu.map((item) => (
+              <AccordionItem
+                key={item.value}
+                value={item.value ?? ""}
+                className="border-0"
+              >
+                <AccordionTrigger>
+                  <ListMenuItem
+                    icon={item.icon}
+                    label={item.label}
+                    margin="ml-4"
+                  />
+                </AccordionTrigger>
+                <AccordionContent className="ml-10">
+                  {item.content?.map((contentItem, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      className="flex w-full items-start pl-10 py-4 rounded-none border-0 boxShadow-0 border-l-4"
+                      onPress={() => router.navigate(item.route)}
+                    >
+                      <Text key={index}>{contentItem.label}</Text>
+                    </Button>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+          <Card className={`${commonCardStyle} w-full gap-8 mt-2 pl-0`}>
+            {otherApps.map((item, index) => (
+              <Button
+                key={index}
+                variant="ghost"
+                className="flex w-full items-start"
+                onPress={() => router.navigate(item.route)}
+              >
+                <ListMenuItem key={index} icon={item.icon} label={item.label} />
+              </Button>
+            ))}
+          </Card>
+        </ScrollView>
       </Card>
     </View>
   );

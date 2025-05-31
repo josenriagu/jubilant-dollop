@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
+import { useAppKit } from "@reown/appkit-ethers-react-native";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -29,8 +30,11 @@ export default function Authentication() {
     setIsSidebarOpen((prev) => !prev);
   };
 
+  const { open } = useAppKit();
+
   const handleConnect = () => {
     /** make a call to reown api */
+    return open();
   };
 
   return (

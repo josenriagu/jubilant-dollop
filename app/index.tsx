@@ -1,5 +1,5 @@
-import * as React from "react";
 import "@walletconnect/react-native-compat";
+import * as React from "react";
 import {
   createAppKit,
   defaultConfig,
@@ -12,7 +12,7 @@ const projectId = process.env.PUBLIC_WALLET_CONNECT_PROJECT_ID ?? "";
 const metadata = {
   name: "Authentication | Akasha",
   description: "Sample Expo Project",
-  url: "https://next.akasha-world-framework.pages.dev",
+  url: "https://expo.dev",
   icons: ["https://avatars.githubusercontent.com/u/179229932"],
   redirect: {
     native: "exp://",
@@ -49,8 +49,8 @@ createAppKit({
 export default function Screen() {
   return (
     <>
-      <AppKit />
       <Authentication />
+      <AppKit />
     </>
   );
 }

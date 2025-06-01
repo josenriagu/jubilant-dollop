@@ -1,6 +1,13 @@
 import * as React from "react";
 import { View } from "react-native";
-import { useAppKit } from "@reown/appkit-ethers-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  useAppKit,
+  useAppKitAccount,
+  useAppKitState,
+  useWalletInfo,
+  useDisconnect,
+} from "@reown/appkit-ethers-react-native";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -23,19 +30,72 @@ import Sidebar from "./sidebar";
 
 export default function Authentication() {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(false);
+  const [walletAddress, setWalletAddress] = React.useState<string | null>(null);
 
+  const { open } = useAppKit();
+  const { disconnect } = useDisconnect();
+  const { walletInfo } = useWalletInfo();
   const { isDarkColorScheme } = useColorScheme();
+  const { address, chainId, isConnected } = useAppKitAccount();
+  const { open: openState, selectedNetworkId } = useAppKitState();
+
+  React.useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const connectedAddress = await AsyncStorage.getItem(
+          "@connected_address"
+        );
+        if (connectedAddress) setWalletAddress(connectedAddress);
+      } catch (e) {
+        console.warn("Failed to load wallet address", e);
+      }
+    };
+
+    checkExistingSession();
+  }, []);
+
+  React.useEffect(() => {
+    const setAddress = async () => {
+      if (address) {
+        try {
+          await AsyncStorage.setItem("@connected_address", address);
+          setWalletAddress(address);
+        } catch (e) {
+          console.warn("Failed to save wallet address", e);
+        }
+      }
+    };
+
+    setAddress();
+  }, [address]);
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
-  const { open } = useAppKit();
-
   const handleConnect = () => {
-    /** make a call to reown api */
-    return open();
+    return open({ view: "Connect" });
   };
+
+  const handleDisconnect = async () => {
+    // clear session and any persisted storage value
+    try {
+      await disconnect();
+      await AsyncStorage.removeItem("@connected_address");
+      setWalletAddress(null);
+    } catch (e) {
+      console.warn("Failed to clear wallet address", e);
+    }
+  };
+
+  console.log({
+    walletInfo,
+    address,
+    chainId,
+    isConnected,
+    openState,
+    selectedNetworkId,
+  });
 
   return (
     <>
@@ -109,27 +169,33 @@ export default function Authentication() {
 
           <CardContent className="gap-2 mt-2">
             <Text className="text-sm text-muted-foreground">
-              Connect your wallet
+              {walletAddress ? "Connected Address" : "Connect your wallet"}
             </Text>
+            <Text className="font-bold">{walletAddress}</Text>
+
             <Button
               variant="outline"
               className="flex items-start w-full mt-[1.5] p-2"
-              onPress={handleConnect}
+              onPress={walletAddress ? handleDisconnect : handleConnect}
             >
-              <Card className="flex flex-row justify-start w-full gap-2 p-0 border-0 boxShadow-none bg-transparent">
-                <WalletConnect />
-                <Card className="border-0 boxShadow-none bg-transparent gap-[2.5]">
-                  <Text className="font-bold">Web3Modal</Text>
-                  <Card className="border-0 boxShadow-none bg-transparent gap-0">
-                    <CardDescription className="font-semibold text-muted-foreground">
-                      Connect your wallet using MetaMask,
-                    </CardDescription>
-                    <CardDescription className="font-semibold text-muted-foreground">
-                      WalletConnect, Coinbase etc ...
-                    </CardDescription>
+              {walletAddress ? (
+                <Text className="m-auto font-bold">Disconnect</Text>
+              ) : (
+                <Card className="flex flex-row justify-start w-full gap-2 p-0 border-0 boxShadow-none bg-transparent">
+                  <WalletConnect />
+                  <Card className="border-0 boxShadow-none bg-transparent gap-[2.5]">
+                    <Text className="font-bold">Web3Modal</Text>
+                    <Card className="border-0 boxShadow-none bg-transparent gap-0">
+                      <CardDescription className="font-semibold text-muted-foreground">
+                        Connect your wallet using MetaMask,
+                      </CardDescription>
+                      <CardDescription className="font-semibold text-muted-foreground">
+                        WalletConnect, Coinbase etc ...
+                      </CardDescription>
+                    </Card>
                   </Card>
                 </Card>
-              </Card>
+              )}
             </Button>
           </CardContent>
           <CardFooter className="flex-col">
@@ -139,7 +205,12 @@ export default function Authentication() {
           </CardFooter>
         </Card>
       </View>
-      {isSidebarOpen && <Sidebar toggleSidebar={handleToggleSidebar} />}
+      {isSidebarOpen && (
+        <Sidebar
+          walletAddress={walletAddress}
+          toggleSidebar={handleToggleSidebar}
+        />
+      )}
     </>
   );
 }

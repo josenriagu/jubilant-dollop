@@ -31,8 +31,12 @@ type SidebarItem = {
   content?: { label: string }[];
 };
 
-export default function Sidebar(props: { toggleSidebar: () => void }) {
-  const { toggleSidebar } = props;
+export default function Sidebar(props: {
+  walletAddress: string | null;
+  toggleSidebar: () => void;
+}) {
+  const { walletAddress, toggleSidebar } = props;
+
   const router = useRouter();
 
   const commonCardStyle = "border-0 boxShadow-none bg-transparent";
@@ -144,7 +148,11 @@ export default function Sidebar(props: { toggleSidebar: () => void }) {
     <View className="absolute top-0 left-0 h-full w-full">
       <Card className="flex items-start h-full w-full max-w-lg p-2 rounded-none gap-2 border-0">
         <Card className="flex flex-row justify-between items-center w-full p-4 rounded-none boxShadow-none border-0 border-b">
-          <Card className={`${commonCardStyle} flex flex-row gap-2`}>
+          <Card
+            className={`${commonCardStyle} flex flex-row ${
+              walletAddress ? "items-center" : ""
+            } gap-2`}
+          >
             <Avatar alt="Guest's Avatar" className="w-12 h-12">
               <AvatarImage
                 source={{
@@ -155,28 +163,37 @@ export default function Sidebar(props: { toggleSidebar: () => void }) {
                 <Text>GU</Text>
               </AvatarFallback>
             </Avatar>
-            <Card className={`${commonCardStyle} gap-1`}>
-              <Text className="text-lg font-bold">Guest</Text>
-              <Text className={commonTextStyle}>Connect to see</Text>
-              <Text className={commonTextStyle}>member-only features.</Text>
-            </Card>
+            {walletAddress && (
+              <Text className="text-lg font-bold">
+                Welcome, {walletAddress.slice(0, 4)}...{walletAddress.slice(36)}
+              </Text>
+            )}
+            {!walletAddress && (
+              <Card className={`${commonCardStyle}`}>
+                <Text className="text-lg font-bold">Guest</Text>
+                <Text className={commonTextStyle}>Connect to see</Text>
+                <Text className={commonTextStyle}>member-only features.</Text>
+              </Card>
+            )}
           </Card>
           <Card className={`${commonCardStyle} flex flex-row gap-2`}>
-            <Button
-              variant="outline"
-              size="icon"
-              className="flex justify-center items-center h-12 w-12 rounded-full"
-              onPress={() => {
-                router.navigate("/");
-                toggleSidebar();
-              }}
-            >
-              <Zap
-                size={16}
-                strokeWidth={2.5}
-                className="w-14 h-14 text-secondary"
-              />
-            </Button>
+            {!walletAddress && (
+              <Button
+                variant="outline"
+                size="icon"
+                className="flex justify-center items-center h-12 w-12 rounded-full"
+                onPress={() => {
+                  router.navigate("/");
+                  toggleSidebar();
+                }}
+              >
+                <Zap
+                  size={16}
+                  strokeWidth={2.5}
+                  className="w-14 h-14 text-secondary"
+                />
+              </Button>
+            )}
             <Button
               variant="outline"
               size="icon"

@@ -4,8 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   useAppKit,
   useAppKitAccount,
-  useAppKitState,
-  useWalletInfo,
   useDisconnect,
 } from "@reown/appkit-ethers-react-native";
 import { Button } from "~/components/ui/button";
@@ -34,10 +32,8 @@ export default function Authentication() {
 
   const { open } = useAppKit();
   const { disconnect } = useDisconnect();
-  const { walletInfo } = useWalletInfo();
   const { isDarkColorScheme } = useColorScheme();
-  const { address, chainId, isConnected } = useAppKitAccount();
-  const { open: openState, selectedNetworkId } = useAppKitState();
+  const { address } = useAppKitAccount();
 
   React.useEffect(() => {
     const checkExistingSession = async () => {
@@ -87,15 +83,6 @@ export default function Authentication() {
       console.warn("Failed to clear wallet address", e);
     }
   };
-
-  console.log({
-    walletInfo,
-    address,
-    chainId,
-    isConnected,
-    openState,
-    selectedNetworkId,
-  });
 
   return (
     <>
